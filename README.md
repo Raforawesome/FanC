@@ -29,3 +29,4 @@ A list of what the compiler currently supports:
 A list of things I'm aiming to include soon:
 - Linking stdlib
 - Including header files
+- Other pre-processor directives
