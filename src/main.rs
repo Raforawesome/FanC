@@ -1,4 +1,4 @@
-mod lexer;
+mod tokenizer;
 
 fn main() {
     println!("Hello, world!");
