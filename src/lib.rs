@@ -18,10 +18,17 @@ mod tests {
     fn lex_log_hello() {
         println!("Lexing log_hello.c:");
         let content: String = std::fs::read_to_string("./input_tests/log_hello.c").unwrap();
-        let lex = tokenizer::Token::lexer(&content);
-        lex.for_each(|t| {
-            dbg!(t.unwrap());
-        });
+        let mut lex: Lexer<'_, Token> = tokenizer::Token::lexer(&content);
+        let mut current: Option<Result<Token, ()>> = lex.next();
+        while let Some(res) = current {
+            let slice: &str = lex.slice();
+            if let Ok(t) = res {
+                println!("Found token {t:?} at slice '{slice}'");
+            } else {
+                println!("Token error at slice '{slice}'");
+            }
+            current = lex.next();
+        }
     }
 }
 
