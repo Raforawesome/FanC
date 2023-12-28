@@ -46,7 +46,7 @@ pub enum Token {
     If,
     #[token("return")]
     Return,
-    #[token("slog", slog)]
+    #[token("slog", |lex| lex.slice()[6..].to_string())]
     Slog(String),
     #[regex(r"[0-9]\w*", |lex| lex.slice().parse::<i32>().unwrap())]
     IntLiteral(i32),
@@ -57,28 +57,32 @@ pub enum Token {
 }
 
 // Handlers
-/// Handler to get inner string of slog function.
-fn slog(lex: &mut Lexer<Token>) -> Option<String> {
-    let slice = lex.slice();
-    let mut left: usize = 0;
-    let mut right: usize = slice.len() - 1;
-    let mut db: bool = false;
-    let (mut db1, mut db2) = (false, false);
-    for (i, c) in slice.chars().enumerate() {
-        if c == '"' {
-            if !db {
-                left = i + 1;
-            } else {
-                db = true;
-                right = i;
-            }
-            if db1 == false {
-                db1 = true;
-            } else {
-                db2 = true;
-            }
-        }
-    }
-    db2.then(|| db1.then(|| &slice[left..right]).unwrap().to_string())
-}
+// Handler to get inner string of slog function.
+// TODO: Reimplement function to not use an O(n) loop.
+// Bounds checking both ends is a much better (and faster) solution.
+// Currently disabled and rewrite has been inlined.
+// #[cfg(disabled)]
+// fn slog(lex: &mut Lexer<Token>) -> Option<String> {
+//     let slice = lex.slice();
+//     let mut left: usize = 0;
+//     let mut right: usize = slice.len() - 1;
+//     let mut db: bool = false;
+//     let (mut db1, mut db2) = (false, false);
+//     for (i, c) in slice.chars().enumerate() {
+//         if c == '"' {
+//             if !db {
+//                 left = i + 1;
+//             } else {
+//                 db = true;
+//                 right = i;
+//             }
+//             if db1 == false {
+//                 db1 = true;
+//             } else {
+//                 db2 = true;
+//             }
+//         }
+//     }
+//     db2.then(|| db1.then(|| &slice[left..right]).unwrap().to_string())
+// }
 
