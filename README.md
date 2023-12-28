@@ -12,13 +12,20 @@ LLVM IR and leveraging the LLVM toolchain for codegen/optimization.
 
 ## Unsupported Features
 Features that aren't, and probably won't be, supported:
-
 - `volatile` keyword
 - `register` keyword
 - `goto` statements
 
 ## Might-be-Supported Features
 These features might be supported in the future, but aren't considered essential:
-
 - `switch` statements
 - `do-while` loops
+
+## Working Features
+A list of what the compiler currently supports:
+- soon™️
+
+## Planned/In-Progress Features
+A list of things I'm aiming to include soon:
+- Linking stdlib
+- Including header files
