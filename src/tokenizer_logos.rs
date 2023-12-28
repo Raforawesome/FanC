@@ -79,6 +79,9 @@ pub enum Token {
     #[regex(r"([0-9]+\.[0-9]+)\w*", |lex| lex.slice().parse::<f32>().unwrap())]
     FloatLiteral(f32),
 
+	#[regex(r#"(".*")+"#, |lex| lex.slice().to_string())]
+	StringLiteral(String),
+
     #[regex(r"[a-zA-Z]\w+", |lex| lex.slice().to_string())]
     Ident(String),
 
