@@ -6,57 +6,94 @@ use logos::{Lexer, Logos};
 pub enum Token {
     #[token("int")]
     Int,
+
     #[token("char")]
     Char,
+	
     #[token("long")]
     Long,
+
     #[token("short")]
     Short,
+
     #[token("float")]
     Float,
+
     #[token("double")]
     Double,
+
     #[token("void")]
     Void,
+
     #[token("struct")]
     Struct,
+
     #[token("union")]
     Union,
+
     #[token("enum")]
     Enum,
+
     #[token("signed")]
     Signed,
+
     #[token("unsigned")]
     Unsigned,
+
     #[token("const")]
     Const,
+
     #[token("break")]
     Break,
+
     #[token("continue")]
     Continue,
+
     #[token("else")]
     Else,
+
     #[token("for")]
     For,
+
     #[token("do")]
     Do,
+
     #[token("while")]
     While,
+
     #[token("if")]
     If,
+
     #[token("return")]
     Return,
-    #[token("slog", |lex| lex.slice()[6..].to_string())]
+
+    #[regex(r"slog\(.*\)", slog)]
     Slog(String),
+
+    #[regex(r"\(.*\)", paren)]
+    Paren(String),
+
     #[regex(r"[0-9]\w*", |lex| lex.slice().parse::<i32>().unwrap())]
     IntLiteral(i32),
+
     #[regex(r"([0-9]+\.[0-9]+)\w*", |lex| lex.slice().parse::<f32>().unwrap())]
     FloatLiteral(f32),
+
     #[regex(r"[a-zA-Z]\w+", |lex| lex.slice().to_string())]
     Ident(String),
 }
 
 // Handlers
+fn slog(lex: &mut Lexer<Token>) -> Option<String> {
+    let s: &str = lex.slice();
+    Some(s[6..s.len()-1].to_string())
+}
+
+fn paren(lex: &mut Lexer<Token>) -> Option<String> {
+    let s: &str = lex.slice();
+    Some(s[1..s.len()-1].to_string())
+}
+
 // Handler to get inner string of slog function.
 // TODO: Reimplement function to not use an O(n) loop.
 // Bounds checking both ends is a much better (and faster) solution.
