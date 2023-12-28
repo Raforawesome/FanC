@@ -33,3 +33,22 @@ A list of things I'm aiming to include soon:
 - Other pre-processor directives
 - `malloc`/`free`/`realloc`/`sizeof`
 - Getting basic syntax compiling
+
+--- 
+
+## Unique Behaviours
+Because why not have some fun with it?
+
+Some things that are different from other compilers:
+### The `slog` function
+The `slog` (**s**ystem **log**) function is a special function that prints to the console. 
+It does not need to be imported, and can't print anything except a single string.
+It's main use is really just for debugging, and for most cases you should use `printf` instead.
+
+Example:
+```c
+int main() {
+    log("Hello, world!");
+    return 0;
+}
+```
