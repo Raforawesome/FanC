@@ -48,6 +48,10 @@ pub enum Token {
     Return,
     #[token("slog", slog)]
     Slog(String),
+    #[regex(r"[0-9]\w*", |lex| lex.slice().parse::<i32>().unwrap())]
+    IntLiteral(i32),
+    #[regex(r"([0-9]+\.[0-9]+)\w*", |lex| lex.slice().parse::<f32>().unwrap())]
+    FloatLiteral(f32),
     #[regex(r"[a-zA-Z]\w+", |lex| lex.slice().to_string())]
     Ident(String),
 }
