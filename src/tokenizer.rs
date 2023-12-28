@@ -3,7 +3,7 @@ use logos::{Lexer, Logos};
 /// A list of C tokens that are used in the parser.
 #[derive(Debug, Clone, PartialEq, Logos)]
 #[logos(skip r"[ \t\n\f]+")]
-pub enum Token<'a> {
+pub enum Token {
     #[token("int")]
     Int,
     #[token("char")]
@@ -46,32 +46,33 @@ pub enum Token<'a> {
     If,
     #[token("return")]
     Return,
-    #[token("slog")]
-    Slog(&'a str),
+    #[token("slog", slog)]
+    Slog(String),
 }
 
 // Handlers
-/// Handler to get inner string of log function
-fn slog<'a>(lex: &'a mut Lexer<Token>) -> Option<&'a str> {
+/// Handler to get inner string of slog function.
+fn slog(lex: &mut Lexer<Token>) -> Option<String> {
     let slice = lex.slice();
     let mut left: usize = 0;
     let mut right: usize = slice.len() - 1;
     let mut db: bool = false;
     let (mut db1, mut db2) = (false, false);
     for (i, c) in slice.chars().enumerate() {
-        if c == r#"""# {
+        if c == '"' {
             if !db {
-                left = i;
+                left = i + 1;
             } else {
                 db = true;
                 right = i;
             }
             if db1 == false {
-                db1 == true;
+                db1 = true;
             } else {
-                db2 == true
+                db2 = true;
             }
         }
     }
-    db2.then(|| db1.then(|| &slice[left..=right]).unwrap())
+    db2.then(|| db1.then(|| &slice[left..right]).unwrap().to_string())
 }
+
