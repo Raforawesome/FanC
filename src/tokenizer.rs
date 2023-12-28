@@ -30,6 +30,22 @@ enum Token {
 	Unsigned,
 	#[token("const")]
 	Const,
+	#[token("break")]
+	Break,
+	#[token("continue")]
+	Continue,
+	#[token("else")]
+	Else,
+	#[token("for")]
+	For,
+	#[token("do")]
+	Do,
+	#[token("while")]
+	While,
+	#[token("if")]
+	If,
+	#[token("return")]
+	Return,
 	// The following keywords are compiler
 	// suggestions that don't really mean anything
 	// in the context of the parser. Therefore they are

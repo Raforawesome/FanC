@@ -20,6 +20,7 @@ Features that aren't, and probably won't be, supported:
 These features might be supported in the future, but aren't considered essential:
 - `switch` statements
 - `do-while` loops
+- `typedef`
 
 ## Working Features
 A list of what the compiler currently supports:
@@ -30,3 +31,5 @@ A list of things I'm aiming to include soon:
 - Linking stdlib
 - Including header files
 - Other pre-processor directives
+- `malloc`/`free`/`realloc`/`sizeof`
+- Getting basic syntax compiling
