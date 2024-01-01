@@ -4,7 +4,6 @@
 /// This file contains all module definitions and crate-level
 /// declarations. Also contains app logic for the entry point
 /// of the application, located in `main.rs`.
-mod tokenizer_logos;
 mod tokenizer;
 
 /// Project Unit Tests
@@ -13,14 +12,14 @@ mod tokenizer;
 /// is working as intended during development.
 #[cfg(test)]
 mod tests {
-    use crate::tokenizer_logos;
+    use crate::tokenizer;
     use logos::Logos;
     #[test]
     fn lex_log_hello() {
 		println!("---------------------------------------------------");
         println!("Lexing log_hello.c:");
         let content: String = std::fs::read_to_string("./input_tests/log_hello.c").unwrap();
-        let mut lex = tokenizer_logos::Token::lexer(&content);
+        let mut lex = tokenizer::Token::lexer(&content);
         let mut current = lex.next();
         while let Some(res) = current {
             let slice: &str = lex.slice();
