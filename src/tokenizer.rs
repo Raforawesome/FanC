@@ -67,12 +67,6 @@ pub enum Token {
     #[token("return")]
     Return,
 
-    #[regex(r#"slog\("[^\)]*"\)+"#, slog)]
-    Slog(String),
-
-    #[regex(r"\([^)]*\)", paren)]
-    Paren(String),
-
     #[regex(r"[0-9]\w*", |lex| lex.slice().parse::<i32>().unwrap())]
     IntLiteral(i32),
 
@@ -88,15 +82,20 @@ pub enum Token {
 	#[token(";")]
 	Semi,
 
-	#[regex("{[^}]*}+", block)]
-	Block(Vec<Token>),
+    #[token("(")]
+    ParenOpen,
+
+    #[token(")")]
+    ParenClose,
+
+    #[token("{")]
+    BlockOpen,
+
+    #[token("}")]
+    BlockClose,
 }
 
 // Handlers
-fn block(lex: &mut Lexer<Token>) -> Vec<Token> {
-    todo!()
-}
-
 fn slog(lex: &mut Lexer<Token>) -> String {
     let s: &str = lex.slice();
     s[6..s.len() - 1].to_string()
@@ -108,7 +107,7 @@ fn paren(lex: &mut Lexer<Token>) -> Option<String> {
 }
 
 // Handler to get inner string of slog function.
-// TODO: Reimplement function to not use an O(n) loop.
+// T ODO: Reimplement function to not use an O(n) loop.
 // Bounds checking both ends is a much better (and faster) solution.
 // Currently disabled and rewrite has been inlined.
 // #[cfg(disabled)]
