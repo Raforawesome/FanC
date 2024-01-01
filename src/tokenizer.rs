@@ -73,7 +73,7 @@ pub enum Token {
     #[regex(r"([0-9]+\.[0-9]+)\w*", |lex| lex.slice().parse::<f32>().unwrap())]
     FloatLiteral(f32),
 
-	#[regex(r#"(".*")+"#, |lex| lex.slice().to_string())]
+	#[regex(r#"("[^"]*")+"#, string)]
 	StringLiteral(String),
 
     #[regex(r"[a-zA-Z]\w+", |lex| lex.slice().to_string())]
@@ -93,4 +93,12 @@ pub enum Token {
 
     #[token("}")]
     BlockClose,
+}
+
+
+// Handlers
+fn string(lex: &mut Lexer<Token>) -> String {
+    let slice = lex.slice();
+    let len = slice.len();
+    slice[1..(len - 1)].to_owned()
 }
