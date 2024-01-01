@@ -4,38 +4,99 @@ use logos::{Lexer, Logos};
 #[derive(Debug, Clone, PartialEq, Logos)]
 #[logos(skip r"[ \t\n\f]+")]
 pub enum Token {
+    #[token("int")]
     Int,
+
+    #[token("char")]
     Char,
+	
+    #[token("long")]
     Long,
+
+    #[token("short")]
     Short,
+
+    #[token("float")]
     Float,
+
+    #[token("double")]
     Double,
+
+    #[token("void")]
     Void,
+
+    #[token("struct")]
     Struct,
+
+    #[token("union")]
     Union,
+
+    #[token("enum")]
     Enum,
+
+    #[token("signed")]
     Signed,
+
+    #[token("unsigned")]
     Unsigned,
+
+    #[token("const")]
     Const,
+
+    #[token("break")]
     Break,
+
+    #[token("continue")]
     Continue,
+
+    #[token("else")]
     Else,
+
+    #[token("for")]
     For,
+
+    #[token("do")]
     Do,
+
+    #[token("while")]
     While,
+
+    #[token("if")]
     If,
+
+    #[token("return")]
     Return,
-    Slog,
-    Paren(Vec<Token>),
+
+    #[regex(r#"slog\("[^\)]*"\)+"#, slog)]
+    Slog(String),
+
+    #[regex(r"\([^)]*\)", paren)]
+    Paren(String),
+
+    #[regex(r"[0-9]\w*", |lex| lex.slice().parse::<i32>().unwrap())]
     IntLiteral(i32),
+
+    #[regex(r"([0-9]+\.[0-9]+)\w*", |lex| lex.slice().parse::<f32>().unwrap())]
     FloatLiteral(f32),
+
+	#[regex(r#"(".*")+"#, |lex| lex.slice().to_string())]
 	StringLiteral(String),
+
+    #[regex(r"[a-zA-Z]\w+", |lex| lex.slice().to_string())]
     Ident(String),
+
+	#[token(";")]
 	Semi,
+
+	#[regex("{[^}]*}+", block)]
 	Block(Vec<Token>),
 }
 
 // Handlers
+fn block(lex: &mut Lexer<Token>) -> Vec<Token> {
+    todo!()
+}
+
 fn slog(lex: &mut Lexer<Token>) -> String {
     let s: &str = lex.slice();
     s[6..s.len() - 1].to_string()
