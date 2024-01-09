@@ -9,7 +9,7 @@ pub enum Token {
 
     #[token("char")]
     Char,
-	
+
     #[token("long")]
     Long,
 
@@ -73,14 +73,14 @@ pub enum Token {
     #[regex(r"([0-9]+\.[0-9]+)\w*", |lex| lex.slice().parse::<f32>().unwrap())]
     FloatLiteral(f32),
 
-	#[regex(r#"("[^"]*")+"#, string)]
-	StringLiteral(String),
+    #[regex(r#"("[^"]*")+"#, string)]
+    StringLiteral(String),
 
     #[regex(r"[a-zA-Z]\w+", |lex| lex.slice().to_string())]
     Ident(String),
 
-	#[token(";")]
-	Semi,
+    #[token(";")]
+    Semi,
 
     #[token("(")]
     ParenOpen,
@@ -94,7 +94,6 @@ pub enum Token {
     #[token("}")]
     BlockClose,
 }
-
 
 // Handlers
 fn string(lex: &mut Lexer<Token>) -> String {
