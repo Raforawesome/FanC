@@ -48,7 +48,7 @@ It's main use is really just for debugging, and for most cases you should use `p
 Example:
 ```c
 int main() {
-    log("Hello, world!");
+    slog("Hello, world!");
     return 0;
 }
 ```
