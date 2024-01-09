@@ -1,9 +1,6 @@
 #![doc = include_str!("../README.md")]
 
-/// The library file of the application.
-/// This file contains all module definitions and crate-level
-/// declarations. Also contains app logic for the entry point
-/// of the application, located in `main.rs`.
+mod ir;
 mod tokenizer;
 
 /// Project Unit Tests
@@ -16,7 +13,7 @@ mod tests {
     use logos::Logos;
     #[test]
     fn lex_log_hello() {
-		println!("---------------------------------------------------");
+        println!("---------------------------------------------------");
         println!("Lexing log_hello.c:");
         let content: String = std::fs::read_to_string("./input_tests/log_hello.c").unwrap();
         let mut lex = tokenizer::Token::lexer(&content);
@@ -30,7 +27,6 @@ mod tests {
             }
             current = lex.next();
         }
-		println!("---------------------------------------------------");
+        println!("---------------------------------------------------");
     }
 }
-
