@@ -1,0 +1,15 @@
+enum CType {
+    Int,
+    Short,
+    Float,
+    Double,
+    Long,
+    UInt,
+    UShort,
+    ULong,
+    ULLong,
+    Char,
+    Void,
+    Ptr(CType),
+    Array(CType),
+}
